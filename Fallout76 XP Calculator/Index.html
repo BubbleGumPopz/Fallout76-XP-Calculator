@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Fallout76 XP Calculator</title>
+<style>
+@font-face {
+    font-family: 'Chowderhead';
+    src: url('Chowderhead.woff2') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    font-family: 'Chowderhead', monospace;
+    background-image: url('Background.jpg');
+    background-size: cover;          /* Ensures it fills the screen */
+    background-position: center;     /* Center the image */
+    background-repeat: no-repeat;    /* Avoid tiling */
+    background-attachment: fixed;    /* Makes background stay on scroll */
+    text-align: center;
+    padding: 20px;
+}
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+td {
+    padding: 4px 8px;
+    vertical-align: middle;
+}
+fieldset {
+    display: inline-block;
+    vertical-align: top;
+    height: 250px;         /* fixed height */
+    overflow: auto;        /* scroll if content overflows */
+    margin: 10px;
+    padding: 10px 20px;
+    background: white;
+    border: 2px solid #333;
+    text-align: left;
+}
+legend {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+.output {
+    font-weight: bold;
+    font-size: 1.3em;
+    margin-top: 4px;
+    line-height: 0.4em;
+}
+.output2 {
+    font-size: 1.3em;
+    margin-top: 4px;
+}
+.compact-table td {
+    padding: 2px 4px;
+}
+.note {
+    font-style: italic;
+    font-size: 0.85em;
+    color: #444; /* optional for slightly muted tone */
+}
+</style>
+</head>
+<body>
+<h1><img src="XPlogo.png" alt="Fallout76 XP Calculator Logo" style="max-width: 40%; height: auto;"></h1>
+<!-- Base Stats -->
+<fieldset>
+  <legend>Base Stats</legend>
+  <table>
+    <tr>
+      <td><input type="checkbox" id="Ghoul">
+        Ghoul</td>
+    </tr>
+    <tr>
+      <td>Base INT:</td>
+      <td><input type="range" min="1" max="15" value="1" id="baseInt">
+        <span id="baseIntVal">1</span></td>
+    </tr>
+    <tr>
+      <td>Legendary INT:</td>
+      <td><input type="range" min="0" max="4" value="0" id="legendInt">
+        <span id="legendIntVal">0</span></td>
+    </tr>
+    <tr>
+      <td>Base CHR:</td>
+      <td><input type="range" min="1" max="15" value="1" id="baseChr">
+        <span id="baseChrVal">1</span></td>
+    </tr>
+    <tr>
+      <td>Legendary CHR:</td>
+      <td><input type="range" min="0" max="4" value="0" id="legendChr">
+        <span id="legendChrVal">0</span></td>
+    </tr>
+    <tr>
+      <td>Health:</td>
+      <td><select id="hpTier">
+          <option value="full">100%</option>
+          <option value="60">&lt;60%</option>
+          <option value="40">&lt;40%</option>
+          <option value="20">&lt;20%</option>
+        </select></td>
+    </tr>
+  </table>
+</fieldset>
+
+<!-- Equipment -->
+<fieldset>
+  <legend>Equipment</legend>
+  <table>
+    <tr>
+      <td>Torso:</td>
+      <td><input type="checkbox" id="torsoUny">
+        Unyielding |
+        +2
+        <select id="torsoMod">
+          <option value="none">-</option>
+          <option value="int">INT</option>
+          <option value="chr">CHR</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Left Arm:</td>
+      <td><input type="checkbox" id="leftArmUny">
+        Unyielding |
+        +2
+        <select id="leftArmMod">
+          <option value="none">-</option>
+          <option value="int">INT</option>
+          <option value="chr">CHR</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Right Arm:</td>
+      <td><input type="checkbox" id="rightArmUny">
+        Unyielding |
+        +2
+        <select id="rightArmMod">
+          <option value="none">-</option>
+          <option value="int">INT</option>
+          <option value="chr">CHR</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Left Leg:</td>
+      <td><input type="checkbox" id="leftLegUny">
+        Unyielding |
+        +2
+        <select id="leftLegMod">
+          <option value="none">-</option>
+          <option value="int">INT</option>
+          <option value="chr">CHR</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Right Leg:</td>
+      <td><input type="checkbox" id="rightLegUny">
+        Unyielding |
+        +2
+        <select id="rightLegMod">
+          <option value="none">-</option>
+          <option value="int">INT</option>
+          <option value="chr">CHR</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Weapon:</td>
+      <td><input type="checkbox" id="intWeapon">
+        +3 INT Weapon</td>
+    </tr>
+    <tr>
+      <td>Under Armor Type:</td>
+      <td><select id="underArmorType">
+          <option value="none">-</option>
+          <option value="casual">Casual</option>
+          <option value="vault">Vault Jumpsuit</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Under Armor Mod:</td>
+      <td><select id="underArmorVariant">
+          <option value="none">-</option>
+          <option value="treated">Treated</option>
+          <option value="resistant">Resistant</option>
+          <option value="protective">Protective</option>
+          <option value="shielded">Shielded</option>
+        </select>
+        <span id="underArmorBonus" style="margin-left: 10px; font-weight: bold;">+0 INT +0 CHR</span></td>
+    </tr>
+  </table>
+</fieldset>
+
+<!-- Perks -->
+<fieldset>
+  <legend>Perks</legend>
+  <table>
+    <tr>
+      <td>Class Freak:</td>
+      <td><select id="classFreak">
+          <option value="0">-</option>
+          <option value="1">Rank 1</option>
+          <option value="2">Rank 2</option>
+          <option value="3">Rank 3</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Night Person:</td>
+      <td><select id="nightPerson">
+          <option value="0">-</option>
+          <option value="1">Rank 1</option>
+          <option value="2">Rank 2</option>
+          <option value="3">Rank 3</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Magnetic Personality:</td>
+      <td><select id="magneticPersonality">
+          <option value="0">-</option>
+          <option value="1">Rank 1</option>
+          <option value="2">Rank 2</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Chem Fiend:</td>
+      <td><select id="chemFiend">
+          <option value="0">-</option>
+          <option value="1">Rank 1</option>
+          <option value="2">Rank 2</option>
+          <option value="3">Rank 3</option>
+        </select></td>
+    </tr>
+    <tr id="unitedOrdealRow" style="display: none;">
+      <td>United Ordeal:</td>
+      <td><select id="unitedOrdeal">
+          <option value="0">-</option>
+          <option value="1">Rank 1</option>
+          <option value="2">Rank 2</option>
+          <option value="3">Rank 3</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="curator">
+        Curator</td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="inspirational">
+        Inspirational <span id="inspirationalBonus" style="font-weight: bold; margin-left: 10px;">+0%</span></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="strangeInNumbersToggle">
+        Strange in Numbers</td>
+    </tr>
+  </table>
+</fieldset>
+
+<!-- Mutations -->
+<fieldset>
+  <legend>Mutations</legend>
+  <table>
+    <tr>
+      <td><input type="checkbox" id="herdMentality">
+        Herd Mentality</td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="eggHead">
+        Egg Head</td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="marsupial">
+        Marsupial</td>
+    </tr>
+    <tr>
+      <td><input type="radio" name="mutationType" value="none" checked>
+        NIL</td>
+    </tr>
+    <tr>
+      <td><input type="radio" name="mutationType" value="herbivore">
+        Herbivore</td>
+    </tr>
+    <tr>
+      <td><input type="radio" name="mutationType" value="carnivore">
+        Carnivore</td>
+    </tr>
+  </table>
+</fieldset>
+
+<!-- Consumables -->
+<fieldset>
+  <legend>Consumables</legend>
+  <table>
+    <tr>
+      <td>Intelligence Food:</td>
+      <td><select id="intFood">
+          <option value="none">-- Select Food --</option>
+          <option value="broiled_scorchbeast_brain" data-intbonus="3" data-duration="30" data-mutation="carnivore">Broiled Scorchbeast Brain (+3 INT)</option>
+          <option value="brain_bombs" data-intbonus="3" data-duration="90" data-mutation="herbivore">Brain Bombs (+3 INT)</option>
+          <option value="steeped_aster_tea" data-intbonus="2" data-duration="60" data-mutation="herbivore" data-tags="tea">Steeped Aster Tea (+2 INT)</option>
+          <option value="brain_fungus_soup" data-intbonus="2" data-duration="30" data-mutation="herbivore">Brain Fungus Soup (+2 INT)</option>
+          <option value="steeped_tato_flower_tea" data-intbonus="2" data-duration="60" data-mutation="herbivore" data-tags="tea">Steeped Tato Flower Tea (+2 INT)</option>
+          <option value="scorchbeast_meat_stew" data-intbonus="1" data-duration="60" data-mutation="carnivore">Scorchbeast Mixed Meat Stew (+1 INT)</option>
+          <option value="owlet_nuggets" data-intbonus="1" data-duration="30" data-mutation="carnivore">Owlet Nuggets (+1 INT)</option>
+          <option value="simple_aster_tea" data-intbonus="1" data-duration="30" data-mutation="herbivore" data-tags="tea">Simple Aster Tea (+1 INT)</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Charisma Food:</td>
+      <td><select id="chrFood">
+          <option value="none">-- Select Food --</option>
+          <option value="sweet_roll" data-chr="3" data-duration="90" data-mutation="nil">Sweet Roll (+3 CHR)</option>
+          <option value="birthday_cake" data-chr="3" data-duration="90" data-mutation="nil">Slice of Birthday Cake (+3 CHR)</option>
+          <option value="slime_cake" data-chr="3" data-duration="90" data-mutation="nil">Slime of Slime Cake (+3 CHR)</option>
+          <option value="ash_rose_steeped" data-chr="2" data-duration="30" data-mutation="herbivore" data-tags="tea">Steeped Ash Rose Tea (+2 CHR)</option>
+          <option value="spicy_venison_stew" data-chr="2" data-duration="30" data-mutation="carnivore">Spicy Venison &amp; Tato Stew (+2 CHR)</option>
+          <option value="mothman_omelette" data-chr="2" data-duration="30" data-mutation="carnivore">Mothman Egg Omelette (+2 CHR)</option>
+          <option value="corn_pone" data-chr="2" data-duration="30" data-mutation="herbivore">Corn Pone (+2 CHR)</option>
+          <option value="quantum_candy" data-chr="2" data-duration="10" data-mutation="nil">Nuka-Cola Quantum Candy (+2 CHR)</option>
+          <option value="ash_rose_simple" data-chr="1" data-duration="30" data-mutation="herbivore" data-tags="tea">Simple Ash Rose Tea (+1 CHR)</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Experience Food:</td>
+      <td><select id="xpFood">
+          <option value="none">-- Select Food --</option>
+          <option value="cranberry_relish" data-xp="10" data-duration="60" data-mutation="herbivore">Cranberry Relish (+10% XP)</option>
+          <option value="tasty_squirrel_stew" data-xp="10" data-duration="60" data-mutation="carnivore">Tasty Squirrel Stew (+10% XP)</option>
+          <option value="canned_meat_stew" data-xp="5" data-duration="60" data-mutation="carnivore">Canned Meat Stew (+5% XP)</option>
+          <option value="cranberry_cobbler" data-xp="5" data-duration="30" data-mutation="herbivore">Cranberry Cobbler (+5% XP)</option>
+          <option value="gut_shroom_soup" data-xp="5" data-duration="30" data-mutation="herbivore">Gut Shroom Soup (+5% XP)</option>
+          <option value="black_eyed_susan_tea" data-xp="5" data-duration="60" data-mutation="herbivore" data-tags="tea">Black Eyed Susan's Soothin' Tea (+5% XP)</option>
+          <option value="cranberry_juice" data-xp="2" data-duration="30" data-mutation="herbivore">Cranberry Juice (+2% XP)</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Chem:</td>
+      <td><select id="chem">
+          <option value="none">-- Select Chem --</option>
+          <option value="berry_mentats" data-int="5" data-duration="5" data-mutation="nil">Berry Mentats (INT +5)</option>
+          <option value="daddy_o" data-int="3" data-chr="-2" data-duration="10" data-mutation="nil">Daddy-O (INT +3, CHR -2)</option>
+          <option value="x_cell" data-int="2" data-chr="2" data-duration="2" data-mutation="nil">X-Cell (INT +2, CHR +2)</option>
+          <option value="mentats" data-int="2" data-duration="5" data-mutation="nil">Mentats (INT +2)</option>
+          <option value="formula_p" data-chr="5" data-duration="5" data-mutation="nil">Formula P (CHR +5)</option>
+          <option value="grape_mentats" data-chr="5" data-duration="5" data-mutation="nil">Grape Mentats (CHR +5)</option>
+          <option value="day_tripper" data-chr="3" data-duration="10" data-mutation="nil">Day Tripper (CHR +3)</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Lunchboxes:</td>
+      <td><input type="range" min="0" max="4" value="0" id="lunchboxes">
+        <span id="lunchboxVal">0</span></td>
+    </tr>
+    <tr>
+      <td>Bobblehead:</td>
+      <td><select id="bobblehead">
+          <option value="none">-- Select Bobblehead --</option>
+          <option value="leader">Leader (+5% XP)</option>
+          <option value="intelligence">Intelligence (+2 INT)</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="magazine">
+        Live&amp;Love #8 (+5% XP)</td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="marsupialSerum">
+        Marsupial Serum</td>
+    </tr>
+  </table>
+</fieldset>
+
+<!-- Camp/Event Buffs -->
+<fieldset>
+  <legend>Camp/Event Buffs</legend>
+  <table>
+    <tr>
+      <td><label for="sleepBuff">Sleep Buff:</label>
+        <select id="sleepBuff">
+          <option value="none">-- Select Type --</option>
+          <option value="rested" data-duration="120">Well Rested</option>
+          <option value="embrace" data-duration="180">Lover’s Embrace</option>
+          <option value="kindred" data-duration="180">Kindred Spirit</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="MechDerby">
+        <label for="MechDerby">Mechanical Derby Machine (+2 INT)</label></td>
+    </tr>
+    <tr>
+      <td><label for="xpMoth">Mothman XP Buff:</label>
+        <select id="xpMoth" name="xpMoth">
+          <option value="Nil">-- Select Bonus --</option>
+          <option value="wisdom">Wisdom of the Mothman (+5% XP)</option>
+          <option value="trueWisdom">True Wisdom of the Mothman (+15% XP)</option>
+        </select></td>
+    </tr>
+  </table>
+</fieldset>
+
+<!-- Unreliable Buffs -->
+<fieldset>
+  <legend>Unreliable Effects</legend>
+  <table class="compact-table">
+    <tr>
+      <td><input type="checkbox" id="nukaTwist">
+        Nuka-Twist (+2 INT)<br>
+        <span class="note">(14–42/hr)</span></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="zetaInvaders">
+        Zeta Invaders (+1 INT)<br>
+        <span class="note">(On Pickup)</span></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="atomicCommand">
+        Atomic Command (+1 INT)<br>
+        <span class="note">(On Pickup)</span></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="nukaInspiration">
+        Nuka-Inspiration (+5% XP)<br>
+        <span class="note">(Once a day)</span></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="internalData">
+        Internal Database (+2 INT)<br>
+        <span class="note">(Power-Armor Only)</span></td>
+    </tr>
+  </table>
+</fieldset>
+
+<!-- Team -->
+<fieldset>
+  <legend>Team</legend>
+  <table>
+    <tr>
+      <td><input type="checkbox" id="onTeam">
+        On a team</td>
+    </tr>
+    <tr>
+      <td>Team Type:</td>
+      <td><select id="teamType">
+          <option value="none">-- Select --</option>
+          <option value="casual">Casual</option>
+          <option value="expeditions">Expeditions</option>
+          <option value="events">Events</option>
+          <option value="dailyops">Daily Ops</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Teammates:</td>
+      <td><input type="range" min="0" max="3" value="0" id="teamMembers">
+        <span id="teamMembersVal">0</span></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="mutatedTeammate">
+        Mutated Teammate</td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="ghoulTeammate">
+        Ghoul Teammate</td>
+    </tr>
+  </table>
+</fieldset>
+
+<!-- Results -->
+<fieldset>
+  <legend>Results</legend>
+  <p class="output">Total INT: <span id="outputInt">0</span></p>
+  <p class="output">Total CHR: <span id="outputChr">0</span></p>
+  <p class="output">XP Bonus: <span id="outputXp">0%</span></p>
+  <p class="output">Sleep Bonus: <span id="outputBed">0%</span></p>
+  <p class="output">Lunchbox Bonus: <span id="outputLunchXp">0%</span></p>
+  <p class="output">Team XP Bonus: <span id="outputTeamXp">0%</span></p>
+</fieldset>
+
+<!-- Calculations -->
+<fieldset>
+  <legend>Calculations</legend>
+  <p class="output2" id="calculationFormula">Formula:</p>
+  <p class="output2" id="calculationResult">Total Multiplier:</p>
+  <label class="output2" for="baseXp">Base XP:</label>
+  <input class="output2" type="number" id="baseXp" value="100" style="width: 80px; text-align: right;">
+  <p class="output2" id="xpTestResult">Total XP: 0</p>
+</fieldset>
+<script src="script.js"></script>
+</body>
+</html>
