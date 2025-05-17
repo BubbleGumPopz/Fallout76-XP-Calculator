@@ -385,11 +385,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Bonus multipliers, show only if > 0
       if (totalXp > 0) {
-        lines.push(`×${(1 + totalXp / 100).toFixed(3)} (XP Bonus)`);
+        lines.push(`×${(1 + totalXp / 100).toFixed(3)} (XP Buff)`);
       }
 
       if (bedBonus > 0) {
-        lines.push(`×${(1 + bedBonus / 100)} (Bed Bonus)`);
+        lines.push(`×${(1 + bedBonus / 100)} (Sleep Buff)`);
       }
       if (lunchboxBonus > 0) {
         lines.push(`×${(1 + lunchboxBonus / 100)} (Lunchbox)`);
