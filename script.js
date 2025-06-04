@@ -242,8 +242,8 @@ document.addEventListener('DOMContentLoaded', () => {
       totalInt += 2;
     }
 
-    // Live & Love #8 magazine
-    if (document.getElementById('magazine').checked) {
+    // Live & Love #8 magazine only provides XP when on a team
+    if (document.getElementById('magazine').checked && onTeam) {
       xpBonus += 5;
     }
 
