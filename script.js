@@ -301,6 +301,14 @@ document.addEventListener('DOMContentLoaded', () => {
       totalChr += ordealRank;
     }
 
+    // Ghoul penalties
+    if (document.getElementById('Ghoul').checked) {
+      totalChr -= 10;
+      if (document.getElementById('feralGhoul').checked) {
+        totalChr -= 99;
+      }
+    }
+
     let inspirationalBonus = 0;
     const chr = totalChr;
     const isInspirationalActive = inspirational.checked && onTeam && teammates > 0;
@@ -436,22 +444,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const ghoulCheckbox = document.getElementById('Ghoul');
   const ordealRow = document.getElementById('unitedOrdealRow');
   const ordealSelect = document.getElementById('unitedOrdeal');
-
-  function toggleOrdealVisibility() {
+  const feralRow = document.getElementById('feralRow');
+  const feralCheckbox = document.getElementById('feralGhoul');
+  function toggleGhoulOptionsVisibility() {
     if (ghoulCheckbox.checked) {
       ordealRow.style.display = '';
+      feralRow.style.display = '';
     } else {
       ordealRow.style.display = 'none';
       ordealSelect.value = '0'; // reset to default
+      feralRow.style.display = 'none';
+      feralCheckbox.checked = false;
     }
   }
 
   // Run once on page load
-  toggleOrdealVisibility();
+  toggleGhoulOptionsVisibility();
 
   // Attach listener
   ghoulCheckbox.addEventListener('change', () => {
-    toggleOrdealVisibility();
+    toggleGhoulOptionsVisibility();
     calculate(); // Recalculate on toggle
   });
 
