@@ -287,6 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('nukaTwist').checked) totalInt += 2;
     if (document.getElementById('zetaInvaders').checked) totalInt += 1;
     if (document.getElementById('atomicCommand').checked) totalInt += 1;
+    if (document.getElementById('dottie').checked) totalInt += 1;
 
     // --- Unreliable XP Buff ---
     let unreliableXp = 0;
