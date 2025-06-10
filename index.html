@@ -229,15 +229,6 @@ h1 {
           <option value="2">Rank 2</option>
         </select></td>
     </tr>
-    <tr>
-      <td>Chem Fiend:</td>
-      <td><select id="chemFiend">
-          <option value="0">-</option>
-          <option value="1">Rank 1</option>
-          <option value="2">Rank 2</option>
-          <option value="3">Rank 3</option>
-        </select></td>
-    </tr>
     <tr id="unitedOrdealRow" style="display: none;">
       <td>United Ordeal:</td>
       <td><select id="unitedOrdeal">
@@ -246,6 +237,13 @@ h1 {
           <option value="2">Rank 2</option>
           <option value="3">Rank 3</option>
         </select></td>
+    </tr>
+    <tr>
+      <td>Chem Fiend:</td>
+      <td>
+        <label><input type="radio" name="chemFiend" value="0" checked> Off</label>
+        <label><input type="radio" name="chemFiend" value="1"> On</label>
+      </td>
     </tr>
     <tr>
       <td><input type="checkbox" id="curator">
@@ -333,6 +331,7 @@ h1 {
           <option value="cranberry_relish" data-xp="10" data-duration="60" data-mutation="herbivore">Cranberry Relish (+10% XP)</option>
           <option value="tasty_squirrel_stew" data-xp="10" data-duration="60" data-mutation="carnivore">Tasty Squirrel Stew (+10% XP)</option>
           <option value="canned_meat_stew" data-xp="5" data-duration="60" data-mutation="carnivore">Canned Meat Stew (+5% XP)</option>
+          <option value="fish_tatos" data-xp="5" data-duration="60" data-mutation="carnivore">Fish and Tatos (+5% XP)</option>
           <option value="cranberry_cobbler" data-xp="5" data-duration="30" data-mutation="herbivore">Cranberry Cobbler (+5% XP)</option>
           <option value="gut_shroom_soup" data-xp="5" data-duration="30" data-mutation="herbivore">Gut Shroom Soup (+5% XP)</option>
           <option value="black_eyed_susan_tea" data-xp="5" data-duration="60" data-mutation="herbivore" data-tags="tea">Black Eyed Susan's Soothin' Tea (+5% XP)</option>
@@ -394,7 +393,7 @@ h1 {
         <label for="MechDerby">Mechanical Derby Machine (+2 INT)</label></td>
     </tr>
     <tr>
-      <td><label for="xpMoth">Mothman XP Buff:</label>
+      <td><label for="xpMoth">Mothman XP Buff:</label><br>
         <select id="xpMoth" name="xpMoth">
           <option value="Nil">-- Select Bonus --</option>
           <option value="wisdom">Wisdom of the Mothman (+5% XP)</option>
