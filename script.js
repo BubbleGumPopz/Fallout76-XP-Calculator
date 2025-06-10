@@ -91,6 +91,19 @@ document.addEventListener('DOMContentLoaded', () => {
     display.textContent = `+${bonus.int} INT +${bonus.chr} CHR`;
   }
 
+  function getIntDamageBonus(intVal) {
+    if (intVal <= 15) {
+      return (17 / 14) * intVal + (53 / 14);
+    } else if (intVal <= 30) {
+      return (13 / 15) * intVal + 9;
+    } else if (intVal <= 60) {
+      return (1 / 3) * intVal + 25;
+    } else if (intVal <= 100) {
+      return (1 / 8) * intVal + 37.5;
+    }
+    return 50;
+  }
+
   function calculate() {
     const baseInt = getVal('baseInt');
     const legendInt = getVal('legendInt');
@@ -385,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const lines = [];
 
       // Header
-      lines.push('Formula :');
+      lines.push('Formula:');
 
       // INT multiplier
       const intMultiplier = 1 + (totalInt * 0.03);
@@ -422,6 +435,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const baseXp = parseFloat(document.getElementById('baseXp').value) || 0;
       const finalXp = baseXp * totalMultiplier;
       document.getElementById('xpTestResult').textContent = 'Total XP: ' + Math.round(finalXp);
+
+      const dmgBonus = getIntDamageBonus(totalInt);
+      document.getElementById('scienceBonus').textContent = `Science!: +${dmgBonus.toFixed(2)}% Energy Dmg`;
+      document.getElementById('pyroBonus').textContent = `Pyro-Technician: +${dmgBonus.toFixed(2)}% Fire Dmg`;
+      document.getElementById('cryoBonus').textContent = `Cryologist: +${dmgBonus.toFixed(2)}% Cryo Dmg`;
     }
 
     updateCalculations(totalInt, totalXp, bedBonus, lunchboxBonus, teamXpBonus);
