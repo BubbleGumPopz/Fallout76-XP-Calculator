@@ -239,11 +239,8 @@ h1 {
         </select></td>
     </tr>
     <tr>
-      <td>Chem Fiend:</td>
-      <td>
-        <label><input type="radio" name="chemFiend" value="0" checked> Off</label>
-        <label><input type="radio" name="chemFiend" value="1"> On</label>
-      </td>
+      <td><input type="checkbox" id="chemFiend">
+        Chem Fiend</td>
     </tr>
     <tr>
       <td><input type="checkbox" id="curator">
@@ -493,9 +490,23 @@ h1 {
   <label class="output2" for="baseXp">Base XP:</label>
   <input class="output2" type="number" id="baseXp" value="100" style="width: 80px; text-align: right;">
   <p class="output2" id="xpTestResult">Total XP: 0</p>
-  <p class="output2" id="scienceBonus">Science!: +0% Energy Dmg</p>
-  <p class="output2" id="pyroBonus">Pyro-Technician: +0% Fire Dmg</p>
-  <p class="output2" id="cryoBonus">Cryologist: +0% Cryo Dmg</p>
+  <table class="compact-table">
+    <tr>
+      <td>Science!</td>
+      <td>Pyro-Technician</td>
+      <td>Cryologist</td>
+    </tr>
+    <tr>
+      <td id="scienceBonus">+0%</td>
+      <td id="pyroBonus">+0%</td>
+      <td id="cryoBonus">+0%</td>
+    </tr>
+    <tr>
+      <td>Energy</td>
+      <td>Fire</td>
+      <td>Cryo</td>
+    </tr>
+  </table>
 </fieldset>
 <script src="script.js"></script>
 </body>

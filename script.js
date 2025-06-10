@@ -438,9 +438,9 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('xpTestResult').textContent = 'Total XP: ' + Math.round(finalXp);
 
       const dmgBonus = getIntDamageBonus(totalInt);
-      document.getElementById('scienceBonus').textContent = `Science!: +${dmgBonus.toFixed(2)}% Energy Dmg`;
-      document.getElementById('pyroBonus').textContent = `Pyro-Technician: +${dmgBonus.toFixed(2)}% Fire Dmg`;
-      document.getElementById('cryoBonus').textContent = `Cryologist: +${dmgBonus.toFixed(2)}% Cryo Dmg`;
+      document.getElementById('scienceBonus').textContent = `+${dmgBonus.toFixed(2)}%`;
+      document.getElementById('pyroBonus').textContent = `+${dmgBonus.toFixed(2)}%`;
+      document.getElementById('cryoBonus').textContent = `+${dmgBonus.toFixed(2)}%`;
     }
 
     updateCalculations(totalInt, totalXp, bedBonus, lunchboxBonus, teamXpBonus);
