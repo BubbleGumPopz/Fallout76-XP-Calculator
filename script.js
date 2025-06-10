@@ -324,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let inspirationalBonus = 0;
-    const chr = totalChr;
+    const chr = Math.max(totalChr, 1);
     const isInspirationalActive = inspirational.checked && onTeam && teammates > 0;
 
     if (isInspirationalActive && chr >= 1) {
