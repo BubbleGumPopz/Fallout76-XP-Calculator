@@ -73,10 +73,14 @@ h1 {
 <fieldset>
   <legend>Base Stats</legend>
   <table>
-    <tr>
-      <td><input type="checkbox" id="Ghoul">
-        Ghoul</td>
-    </tr>
+      <tr>
+        <td><input type="checkbox" id="Ghoul">
+          Ghoul</td>
+      </tr>
+      <tr id="feralRow" style="display: none;">
+        <td style="padding-left: 20px;"><input type="checkbox" id="feralGhoul">
+          Feral</td>
+      </tr>
     <tr>
       <td>Base INT:</td>
       <td><input type="range" min="1" max="15" value="1" id="baseInt">
@@ -363,7 +367,7 @@ h1 {
     </tr>
     <tr>
       <td><input type="checkbox" id="magazine">
-        Live&amp;Love #8 (+5% XP)</td>
+        Live&amp;Love #8 (+5% XP on team)</td>
     </tr>
     <tr>
       <td><input type="checkbox" id="marsupialSerum">
