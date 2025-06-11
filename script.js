@@ -269,6 +269,11 @@ document.addEventListener('DOMContentLoaded', () => {
       totalInt += 2;
     }
 
+    // --- Scent-O-Matic ---
+    if (document.getElementById('ScentOMatic').checked) {
+      totalChr += 2;
+    }
+
     // --- Mothman XP Bonus ---
     let mothmanBonus = 0;
     const xpMoth = document.getElementById('xpMoth').value;

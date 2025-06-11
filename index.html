@@ -73,6 +73,9 @@ h1 {
     border: 1px solid #000;
     text-align: center;
 }
+#resultsBox {
+    width: 500px;
+}
 </style>
 </head>
 <body>
@@ -395,7 +398,11 @@ h1 {
     </tr>
     <tr>
       <td><input type="checkbox" id="MechDerby">
-        <label for="MechDerby">Mechanical Derby Machine (+2 INT)</label></td>
+        <label for="MechDerby">Mechanical Derby (+2 INT)</label></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="ScentOMatic">
+        <label for="ScentOMatic">Scent-O-Matic (+2 CHA)</label></td>
     </tr>
     <tr>
       <td><label for="xpMoth">Mothman XP Buff:</label><br>
@@ -480,7 +487,7 @@ h1 {
 </fieldset>
 
 <!-- Results -->
-<fieldset>
+<fieldset id="resultsBox">
   <legend>Results</legend>
   <p class="output">Total INT: <span id="outputInt">0</span></p>
   <p class="output">Total CHR: <span id="outputChr">0</span></p>
