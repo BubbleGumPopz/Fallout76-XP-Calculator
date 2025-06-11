@@ -65,6 +65,14 @@ h1 {
     font-size: 0.85em;
     color: #444; /* optional for slightly muted tone */
 }
+#calculationTable {
+    text-align: center;
+    border: 1px solid #000;
+}
+#calculationTable td {
+    border: 1px solid #000;
+    text-align: center;
+}
 </style>
 </head>
 <body>
@@ -490,7 +498,7 @@ h1 {
   <label class="output2" for="baseXp">Base XP:</label>
   <input class="output2" type="number" id="baseXp" value="100" style="width: 80px; text-align: right;">
   <p class="output2" id="xpTestResult">Total XP: 0</p>
-  <table class="compact-table">
+  <table id="calculationTable" class="compact-table">
     <tr>
       <td>Science!</td>
       <td>Pyro-Technician</td>
