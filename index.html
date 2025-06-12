@@ -103,14 +103,14 @@ h1 {
         <span id="legendIntVal">0</span></td>
     </tr>
     <tr>
-      <td>Base CHR:</td>
-      <td><input type="range" min="1" max="15" value="1" id="baseChr">
-        <span id="baseChrVal">1</span></td>
+      <td>Base CHA:</td>
+      <td><input type="range" min="1" max="15" value="1" id="baseCha">
+        <span id="baseChaVal">1</span></td>
     </tr>
     <tr>
-      <td>Legendary CHR:</td>
-      <td><input type="range" min="0" max="4" value="0" id="legendChr">
-        <span id="legendChrVal">0</span></td>
+      <td>Legendary CHA:</td>
+      <td><input type="range" min="0" max="4" value="0" id="legendCha">
+        <span id="legendChaVal">0</span></td>
     </tr>
     <tr>
       <td>Health:</td>
@@ -136,7 +136,7 @@ h1 {
         <select id="torsoMod">
           <option value="none">-</option>
           <option value="int">INT</option>
-          <option value="chr">CHR</option>
+          <option value="cha">CHA</option>
         </select></td>
     </tr>
     <tr>
@@ -147,7 +147,7 @@ h1 {
         <select id="leftArmMod">
           <option value="none">-</option>
           <option value="int">INT</option>
-          <option value="chr">CHR</option>
+          <option value="cha">CHA</option>
         </select></td>
     </tr>
     <tr>
@@ -158,7 +158,7 @@ h1 {
         <select id="rightArmMod">
           <option value="none">-</option>
           <option value="int">INT</option>
-          <option value="chr">CHR</option>
+          <option value="cha">CHA</option>
         </select></td>
     </tr>
     <tr>
@@ -169,7 +169,7 @@ h1 {
         <select id="leftLegMod">
           <option value="none">-</option>
           <option value="int">INT</option>
-          <option value="chr">CHR</option>
+          <option value="cha">CHA</option>
         </select></td>
     </tr>
     <tr>
@@ -180,7 +180,7 @@ h1 {
         <select id="rightLegMod">
           <option value="none">-</option>
           <option value="int">INT</option>
-          <option value="chr">CHR</option>
+          <option value="cha">CHA</option>
         </select></td>
     </tr>
     <tr>
@@ -205,7 +205,7 @@ h1 {
           <option value="protective">Protective</option>
           <option value="shielded">Shielded</option>
         </select>
-        <span id="underArmorBonus" style="margin-left: 10px; font-weight: bold;">+0 INT +0 CHR</span></td>
+        <span id="underArmorBonus" style="margin-left: 10px; font-weight: bold;">+0 INT +0 CHA</span></td>
     </tr>
   </table>
 </fieldset>
@@ -319,17 +319,17 @@ h1 {
     </tr>
     <tr>
       <td>Charisma Food:</td>
-      <td><select id="chrFood">
+      <td><select id="chaFood">
           <option value="none">-- Select Food --</option>
-          <option value="sweet_roll" data-chr="3" data-duration="90" data-mutation="nil">🍬 Sweet Roll (+3 CHR)</option>
-          <option value="birthday_cake" data-chr="3" data-duration="90" data-mutation="nil">🍬 Slice of Birthday Cake (+3 CHR)</option>
-          <option value="slime_cake" data-chr="3" data-duration="90" data-mutation="nil">🍬 Slime of Slime Cake (+3 CHR)</option>
-          <option value="ash_rose_steeped" data-chr="2" data-duration="30" data-mutation="herbivore" data-tags="tea">🌿 Steeped Ash Rose Tea (+2 CHR)</option>
-          <option value="spicy_venison_stew" data-chr="2" data-duration="30" data-mutation="carnivore">🍖 Spicy Venison &amp; Tato Stew (+2 CHR)</option>
-          <option value="mothman_omelette" data-chr="2" data-duration="30" data-mutation="carnivore">🍖 Mothman Egg Omelette (+2 CHR)</option>
-          <option value="corn_pone" data-chr="2" data-duration="30" data-mutation="herbivore">🌿 Corn Pone (+2 CHR)</option>
-          <option value="quantum_candy" data-chr="2" data-duration="10" data-mutation="nil">🍬 Nuka-Cola Quantum Candy (+2 CHR)</option>
-          <option value="ash_rose_simple" data-chr="1" data-duration="30" data-mutation="herbivore" data-tags="tea">🌿 Simple Ash Rose Tea (+1 CHR)</option>
+          <option value="sweet_roll" data-cha="3" data-duration="90" data-mutation="nil">🍬 Sweet Roll (+3 CHA)</option>
+          <option value="birthday_cake" data-cha="3" data-duration="90" data-mutation="nil">🍬 Slice of Birthday Cake (+3 CHA)</option>
+          <option value="slime_cake" data-cha="3" data-duration="90" data-mutation="nil">🍬 Slime of Slime Cake (+3 CHA)</option>
+          <option value="ash_rose_steeped" data-cha="2" data-duration="30" data-mutation="herbivore" data-tags="tea">🌿 Steeped Ash Rose Tea (+2 CHA)</option>
+          <option value="spicy_venison_stew" data-cha="2" data-duration="30" data-mutation="carnivore">🍖 Spicy Venison &amp; Tato Stew (+2 CHA)</option>
+          <option value="mothman_omelette" data-cha="2" data-duration="30" data-mutation="carnivore">🍖 Mothman Egg Omelette (+2 CHA)</option>
+          <option value="corn_pone" data-cha="2" data-duration="30" data-mutation="herbivore">🌿 Corn Pone (+2 CHA)</option>
+          <option value="quantum_candy" data-cha="2" data-duration="10" data-mutation="nil">🍬 Nuka-Cola Quantum Candy (+2 CHA)</option>
+          <option value="ash_rose_simple" data-cha="1" data-duration="30" data-mutation="herbivore" data-tags="tea">🌿 Simple Ash Rose Tea (+1 CHA)</option>
         </select></td>
     </tr>
     <tr>
@@ -351,12 +351,12 @@ h1 {
       <td><select id="chem">
           <option value="none">-- Select Chem --</option>
           <option value="berry_mentats" data-int="5" data-duration="5" data-mutation="nil">Berry Mentats (INT +5)</option>
-          <option value="daddy_o" data-int="3" data-chr="-2" data-duration="10" data-mutation="nil">Daddy-O (INT +3, CHR -2)</option>
-          <option value="x_cell" data-int="2" data-chr="2" data-duration="2" data-mutation="nil">X-Cell (INT +2, CHR +2)</option>
+          <option value="daddy_o" data-int="3" data-cha="-2" data-duration="10" data-mutation="nil">Daddy-O (INT +3, CHA -2)</option>
+          <option value="x_cell" data-int="2" data-cha="2" data-duration="2" data-mutation="nil">X-Cell (INT +2, CHA +2)</option>
           <option value="mentats" data-int="2" data-duration="5" data-mutation="nil">Mentats (INT +2)</option>
-          <option value="formula_p" data-chr="5" data-duration="5" data-mutation="nil">Formula P (CHR +5)</option>
-          <option value="grape_mentats" data-chr="5" data-duration="5" data-mutation="nil">Grape Mentats (CHR +5)</option>
-          <option value="day_tripper" data-chr="3" data-duration="10" data-mutation="nil">Day Tripper (CHR +3)</option>
+          <option value="formula_p" data-cha="5" data-duration="5" data-mutation="nil">Formula P (CHA +5)</option>
+          <option value="grape_mentats" data-cha="5" data-duration="5" data-mutation="nil">Grape Mentats (CHA +5)</option>
+          <option value="day_tripper" data-cha="3" data-duration="10" data-mutation="nil">Day Tripper (CHA +3)</option>
         </select></td>
     </tr>
     <tr>
@@ -490,7 +490,7 @@ h1 {
 <fieldset id="resultsBox">
   <legend>Results</legend>
   <p class="output">Total INT: <span id="outputInt">0</span></p>
-  <p class="output">Total CHR: <span id="outputChr">0</span></p>
+  <p class="output">Total CHA: <span id="outputCha">0</span></p>
   <p class="output">XP Bonus: <span id="outputXp">0%</span></p>
   <p class="output">Sleep Bonus: <span id="outputBed">0%</span></p>
   <p class="output">Lunchbox Bonus: <span id="outputLunchXp">0%</span></p>
