@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const update = () => {
       const val = parseInt(slider.value);
       // Show 5 if it's a legendary slider and value is 4
-      if (id === 'legendInt' || id === 'legendChr') {
+      if (id === 'legendInt' || id === 'legendCha') {
         display.textContent = val === 4 ? 5 : val;
       } else {
         display.textContent = val;
@@ -20,14 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   bindSlider('baseInt', 'baseIntVal');
   bindSlider('legendInt', 'legendIntVal');
-  bindSlider('baseChr', 'baseChrVal');
-  bindSlider('legendChr', 'legendChrVal');
+  bindSlider('baseCha', 'baseChaVal');
+  bindSlider('legendCha', 'legendChaVal');
   bindSlider('teamMembers', 'teamMembersVal');
   bindSlider('lunchboxes', 'lunchboxVal');
 
   function getVal(id) {
     const val = parseInt(document.getElementById(id).value) || 0;
-    if ((id === 'legendInt' || id === 'legendChr') && val === 4) {
+    if ((id === 'legendInt' || id === 'legendCha') && val === 4) {
       return 5;
     }
     return val;
@@ -60,18 +60,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const variant = document.getElementById('underArmorVariant').value;
 
     let intBonus = 0;
-    let chrBonus = 0;
+    let chaBonus = 0;
 
     if (type === 'casual') {
       if (variant === 'treated' || variant === 'resistant') {
         intBonus = 1;
-        chrBonus = 1;
+        chaBonus = 1;
       } else if (variant === 'protective') {
         intBonus = 1;
-        chrBonus = 2;
+        chaBonus = 2;
       } else if (variant === 'shielded') {
         intBonus = 3;
-        chrBonus = 3;
+        chaBonus = 3;
       }
     } else if (type === 'vault') {
       if (variant === 'resistant' || variant === 'protective' || variant === 'shielded') {
@@ -81,14 +81,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     return {
       int: intBonus,
-      chr: chrBonus
+      cha: chaBonus
     };
   }
 
   function updateUnderArmorBonusDisplay() {
     const bonus = getUnderArmorBonuses();
     const display = document.getElementById('underArmorBonus');
-    display.textContent = `+${bonus.int} INT +${bonus.chr} CHR`;
+    display.textContent = `+${bonus.int} INT +${bonus.cha} CHA`;
   }
 
   function getIntDamageBonus(intVal) {
@@ -107,11 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function calculate() {
     const baseInt = getVal('baseInt');
     const legendInt = getVal('legendInt');
-    const baseChr = getVal('baseChr');
-    const legendChr = getVal('legendChr');
+    const baseCha = getVal('baseCha');
+    const legendCha = getVal('legendCha');
 
     let totalInt = baseInt + legendInt;
-    let totalChr = baseChr + legendChr;
+    let totalCha = baseCha + legendCha;
 
     // HP bonus per unyielding piece
     const hp = document.getElementById('hpTier').value;
@@ -121,20 +121,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const slots = ['torso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg'];
     let unyCount = 0;
     let intArmorCount = 0;
-    let chrArmorCount = 0;
+    let chaArmorCount = 0;
 
     slots.forEach(slot => {
       if (document.getElementById(`${slot}Uny`).checked) unyCount++;
 
       const mod = document.getElementById(`${slot}Mod`).value;
       if (mod === 'int') intArmorCount++;
-      if (mod === 'chr') chrArmorCount++;
+      if (mod === 'cha') chaArmorCount++;
     });
 
     totalInt += intArmorCount * 2;
-    totalChr += chrArmorCount * 2;
+    totalCha += chaArmorCount * 2;
     totalInt += unyCount * hpBonus;
-    totalChr += unyCount * hpBonus;
+    totalCha += unyCount * hpBonus;
 
     if (document.getElementById('internalData').checked) {
       totalInt += 2;
@@ -165,14 +165,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (onTeam) {
         const herdBonus = sin ? 3 : 2;
         totalInt += herdBonus;
-        totalChr += herdBonus;
+        totalCha += herdBonus;
       } else {
         let herdPenalty = 2;
         if (classFreak === 1) herdPenalty = 1.5;
         if (classFreak === 2) herdPenalty = 1;
         if (classFreak === 3) herdPenalty = 0.5;
         totalInt -= herdPenalty;
-        totalChr -= herdPenalty;
+        totalCha -= herdPenalty;
       }
     }
 
@@ -199,20 +199,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Magnetic Personality
     const magnetic = getVal('magneticPersonality');
     if (onTeam && magnetic > 0) {
-      totalChr += teammates * magnetic;
+      totalCha += teammates * magnetic;
     }
 
     // --- Mutation Type ---
     const mutationRadio = document.querySelector('input[name="mutationType"]:checked');
     const mutationType = mutationRadio ? mutationRadio.value : 'none';
 
-    // --- CHR Food ---
-    const chrFood = document.getElementById('chrFood');
-    const selectedChrFood = chrFood.options[chrFood.selectedIndex];
-    const chrBonus = parseFloat(selectedChrFood.dataset.chr) || 0;
-    const chrMutReq = selectedChrFood.dataset.mutation || 'none';
-    const chrTags = selectedChrFood.dataset.tags || '';
-    totalChr += resolveFoodBonus(chrBonus, chrMutReq, chrTags, mutationType, sin);
+    // --- CHA Food ---
+    const chaFood = document.getElementById('chaFood');
+    const selectedChaFood = chaFood.options[chaFood.selectedIndex];
+    const chaBonus = parseFloat(selectedChaFood.dataset.cha) || 0;
+    const chaMutReq = selectedChaFood.dataset.mutation || 'none';
+    const chaTags = selectedChaFood.dataset.tags || '';
+    totalCha += resolveFoodBonus(chaBonus, chaMutReq, chaTags, mutationType, sin);
 
     // --- INT Food ---
     const intFood = document.getElementById('intFood');
@@ -234,15 +234,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const chemSelect = document.getElementById('chem');
     const selectedChem = chemSelect.options[chemSelect.selectedIndex];
     const chemInt = parseFloat(selectedChem.dataset.int) || 0;
-    const chemChr = parseFloat(selectedChem.dataset.chr) || 0;
+    const chemCha = parseFloat(selectedChem.dataset.cha) || 0;
 
     totalInt += chemInt;
-    totalChr += chemChr;
+    totalCha += chemCha;
 
     // Under Armor bonuses
     const ua = getUnderArmorBonuses();
     totalInt += ua.int;
-    totalChr += ua.chr;
+    totalCha += ua.cha;
 
     // --- XP Buffs: Bobblehead and Magazine only ---
     let xpBonus = xpFoodBonus; // Only food + bobblehead + magazine affect this
@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Scent-O-Matic ---
     if (document.getElementById('ScentOMatic').checked) {
-      totalChr += 2;
+      totalCha += 2;
     }
 
     // --- Mothman XP Bonus ---
@@ -317,30 +317,30 @@ document.addEventListener('DOMContentLoaded', () => {
     ) {
       const ordealRank = getVal('unitedOrdeal');
       totalInt += ordealRank;
-      totalChr += ordealRank;
+      totalCha += ordealRank;
     }
 
     // Ghoul penalties
     if (document.getElementById('Ghoul').checked) {
-      totalChr -= 10;
+      totalCha -= 10;
       if (document.getElementById('feralGhoul').checked) {
-        totalChr -= 99;
+        totalCha -= 99;
       }
     }
 
     let inspirationalBonus = 0;
-    const chr = Math.max(totalChr, 1);
+    const cha = Math.max(totalCha, 1);
     const isInspirationalActive = inspirational.checked && onTeam && teammates > 0;
 
-    if (isInspirationalActive && chr >= 1) {
-      if (chr <= 15) {
-        inspirationalBonus = (17 / 14) * chr + (25 / 14);
-      } else if (chr <= 30) {
-        inspirationalBonus = (1 / 3) * chr + 15;
-      } else if (chr <= 60) {
-        inspirationalBonus = (1 / 10) * chr + 22;
-      } else if (chr <= 100) {
-        inspirationalBonus = (1 / 20) * chr + 25;
+    if (isInspirationalActive && cha >= 1) {
+      if (cha <= 15) {
+        inspirationalBonus = (17 / 14) * cha + (25 / 14);
+      } else if (cha <= 30) {
+        inspirationalBonus = (1 / 3) * cha + 15;
+      } else if (cha <= 60) {
+        inspirationalBonus = (1 / 10) * cha + 22;
+      } else if (cha <= 100) {
+        inspirationalBonus = (1 / 20) * cha + 25;
       } else {
         inspirationalBonus = 30;
       }
@@ -358,11 +358,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Clamp values to minimum of 1
     totalInt = Math.max(totalInt, 1);
-    totalChr = Math.max(totalChr, 1);
+    totalCha = Math.max(totalCha, 1);
 
     // Final Output
     document.getElementById('outputInt').textContent = totalInt;
-    document.getElementById('outputChr').textContent = totalChr;
+    document.getElementById('outputCha').textContent = totalCha;
     // XP Bonus
     const totalXp = xpBonus + mothmanBonus + unreliableXp;
     const outputXp = document.getElementById('outputXp').parentElement;
