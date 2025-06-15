@@ -544,4 +544,13 @@ document.addEventListener('DOMContentLoaded', () => {
   updateInternalDataState();
 
   calculate();
+
+  const darkToggle = document.getElementById('darkModeToggle');
+  darkToggle.addEventListener('change', () => {
+    if (darkToggle.checked) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  });
 });
