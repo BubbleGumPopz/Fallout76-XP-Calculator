@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const elementCache = {};
+  const $ = id => elementCache[id] || (elementCache[id] = document.getElementById(id));
 
   function bindSlider(id, valId) {
-    const slider = document.getElementById(id);
-    const display = document.getElementById(valId);
+    const slider = $(id);
+    const display = $(valId);
     const update = () => {
       const val = parseInt(slider.value);
       // Show 5 if it's a legendary slider and value is 4
@@ -26,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   bindSlider('lunchboxes', 'lunchboxVal');
 
   function getVal(id) {
-    const val = parseInt(document.getElementById(id).value) || 0;
+    const val = parseInt($(id).value) || 0;
     if ((id === 'legendInt' || id === 'legendCha') && val === 4) {
       return 5;
     }
@@ -56,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function getUnderArmorBonuses() {
-    const type = document.getElementById('underArmorType').value;
-    const variant = document.getElementById('underArmorVariant').value;
+    const type = $('underArmorType').value;
+    const variant = $('underArmorVariant').value;
 
     let intBonus = 0;
     let chaBonus = 0;
@@ -87,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateUnderArmorBonusDisplay() {
     const bonus = getUnderArmorBonuses();
-    const display = document.getElementById('underArmorBonus');
+    const display = $('underArmorBonus');
     display.textContent = `+${bonus.int} INT +${bonus.cha} CHA`;
   }
 
@@ -114,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalCha = baseCha + legendCha;
 
     // HP bonus per unyielding piece
-    const hp = document.getElementById('hpTier').value;
+    const hp = $('hpTier').value;
     const hpBonus = hp === '20' ? 3 : hp === '40' ? 2 : hp === '60' ? 1 : 0;
 
     // Equipment checks
@@ -124,9 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let chaArmorCount = 0;
 
     slots.forEach(slot => {
-      if (document.getElementById(`${slot}Uny`).checked) unyCount++;
+      if ($(`${slot}Uny`).checked) unyCount++;
 
-      const mod = document.getElementById(`${slot}Mod`).value;
+      const mod = $(`${slot}Mod`).value;
       if (mod === 'int') intArmorCount++;
       if (mod === 'cha') chaArmorCount++;
     });
@@ -136,29 +138,29 @@ document.addEventListener('DOMContentLoaded', () => {
     totalInt += unyCount * hpBonus;
     totalCha += unyCount * hpBonus;
 
-    if (document.getElementById('internalData').checked) {
+    if ($('internalData').checked) {
       totalInt += 2;
     }
 
 
     // Weapon
-    if (document.getElementById('intWeapon').checked) {
+    if ($('intWeapon').checked) {
       totalInt += 3;
     }
 
     // Perks and Mutation Conditions
     const classFreak = getVal('classFreak');
-    const onTeam = document.getElementById('onTeam').checked;
+    const onTeam = $('onTeam').checked;
     const teammates = getVal('teamMembers');
     const sin = (
-      document.getElementById('strangeInNumbersToggle').checked
+      $('strangeInNumbersToggle').checked
       && onTeam
       && teammates > 0
-      && document.getElementById('mutatedTeammate').checked
+      && $('mutatedTeammate').checked
     );
-    const herd = document.getElementById('herdMentality').checked;
-    const marsupial = document.getElementById('marsupial').checked;
-    const serum = document.getElementById('marsupialSerum').checked;
+    const herd = $('herdMentality').checked;
+    const marsupial = $('marsupial').checked;
+    const serum = $('marsupialSerum').checked;
 
     // Herd Mentality
     if (herd) {
@@ -192,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Egg Head
-    if (document.getElementById('eggHead').checked) {
+    if ($('eggHead').checked) {
       totalInt += sin ? 8 : 6;
     }
 
@@ -213,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mutationType = mutationRadio ? mutationRadio.value : 'none';
 
     // --- CHA Food ---
-    const chaFood = document.getElementById('chaFood');
+    const chaFood = $('chaFood');
     const selectedChaFood = chaFood.options[chaFood.selectedIndex];
     const chaBonus = parseFloat(selectedChaFood.dataset.cha) || 0;
     const chaMutReq = selectedChaFood.dataset.mutation || 'none';
@@ -221,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
     totalCha += resolveFoodBonus(chaBonus, chaMutReq, chaTags, mutationType, sin);
 
     // --- INT Food ---
-    const intFood = document.getElementById('intFood');
+    const intFood = $('intFood');
     const selectedIntFood = intFood.options[intFood.selectedIndex];
     const intBonus = parseFloat(selectedIntFood.dataset.intbonus) || 0;
     const intMutReq = selectedIntFood.dataset.mutation || 'none';
@@ -229,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
     totalInt += resolveFoodBonus(intBonus, intMutReq, intTags, mutationType, sin);
 
     // --- XP Food ---
-    const xpFood = document.getElementById('xpFood');
+    const xpFood = $('xpFood');
     const selectedXpFood = xpFood.options[xpFood.selectedIndex];
     const basexpBonus = parseFloat(selectedXpFood.dataset.xp) || 0;
     const xpMutReq = selectedXpFood.dataset.mutation || 'none';
@@ -238,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (xpTags.includes('cola')) xpFoodBonus *= colaMultiplier;
 
     // --- Chem Buff ---
-    const chemSelect = document.getElementById('chem');
+    const chemSelect = $('chem');
     const selectedChem = chemSelect.options[chemSelect.selectedIndex];
     const chemInt = parseFloat(selectedChem.dataset.int) || 0;
     const chemCha = parseFloat(selectedChem.dataset.cha) || 0;
@@ -255,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let xpBonus = xpFoodBonus; // Only food + bobblehead + magazine affect this
 
     // Bobblehead
-    const bobblehead = document.getElementById('bobblehead').value;
+    const bobblehead = $('bobblehead').value;
     if (bobblehead === 'leader') {
       xpBonus += 5;
     } else if (bobblehead === 'intelligence') {
@@ -263,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Live & Love #8 magazine only provides XP when on a team
-    if (document.getElementById('magazine').checked && onTeam) {
+    if ($('magazine').checked && onTeam) {
       xpBonus += 5;
     }
 
@@ -272,43 +274,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const lunchboxBonus = lunchboxCount * 25;
 
     // --- Mechanical Derby ---
-    if (document.getElementById('MechDerby').checked) {
+    if ($('MechDerby').checked) {
       totalInt += 2;
     }
 
     // --- Scent-O-Matic ---
-    if (document.getElementById('ScentOMatic').checked) {
+    if ($('ScentOMatic').checked) {
       totalCha += 2;
     }
 
     // --- Mothman XP Bonus ---
     let mothmanBonus = 0;
-    const xpMoth = document.getElementById('xpMoth').value;
+    const xpMoth = $('xpMoth').value;
     if (xpMoth === 'wisdom') mothmanBonus = 5;
     else if (xpMoth === 'trueWisdom') mothmanBonus = 15;
 
 
     // --- Bed Buff ---
     let bedBonus = 0;
-    const bedBuff = document.getElementById('sleepBuff').value;
+    const bedBuff = $('sleepBuff').value;
     if (bedBuff !== 'none') {
       bedBonus = 5;
     }
 
     // --- Unreliable INT Buffs ---
-    if (document.getElementById('nukaTwist').checked) totalInt += 2;
-    if (document.getElementById('zetaInvaders').checked) totalInt += 1;
-    if (document.getElementById('atomicCommand').checked) totalInt += 1;
-    if (document.getElementById('dottie').checked) totalInt += 1;
+    if ($('nukaTwist').checked) totalInt += 2;
+    if ($('zetaInvaders').checked) totalInt += 1;
+    if ($('atomicCommand').checked) totalInt += 1;
+    if ($('dottie').checked) totalInt += 1;
 
     // --- Unreliable XP Buff ---
     let unreliableXp = 0;
-    if (document.getElementById('nukaInspiration').checked) unreliableXp += 5;
+    if ($('nukaInspiration').checked) unreliableXp += 5;
 
     // Team Type Bonuses
     let teamXpBonus = 0;
     if (onTeam) {
-      const teamType = document.getElementById('teamType').value;
+      const teamType = $('teamType').value;
 
       if (teamType === 'casual') {
         totalInt += 1 + teammates; // +1 for team, +1 per teammate
@@ -319,8 +321,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // United Ordeal
     if (
-      document.getElementById('Ghoul').checked
-      && document.getElementById('ghoulTeammate').checked
+      $('Ghoul').checked
+      && $('ghoulTeammate').checked
     ) {
       const ordealRank = getVal('unitedOrdeal');
       totalInt += ordealRank;
@@ -328,9 +330,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Ghoul penalties
-    if (document.getElementById('Ghoul').checked) {
+    if ($('Ghoul').checked) {
       totalCha -= 10;
-      if (document.getElementById('feralGhoul').checked) {
+      if ($('feralGhoul').checked) {
         totalCha -= 99;
       }
     }
@@ -354,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Update visual next to checkbox
-    const inspirationalDisplay = document.getElementById('inspirationalBonus');
+    const inspirationalDisplay = $('inspirationalBonus');
     if (inspirationalDisplay) {
       inspirationalDisplay.textContent = isInspirationalActive ? `(+${inspirationalBonus.toFixed(2)}% XP)` : '';
     }
@@ -368,41 +370,41 @@ document.addEventListener('DOMContentLoaded', () => {
     totalCha = Math.max(totalCha, 1);
 
     // Final Output
-    document.getElementById('outputInt').textContent = totalInt;
-    document.getElementById('outputCha').textContent = totalCha;
+    $('outputInt').textContent = totalInt;
+    $('outputCha').textContent = totalCha;
     // XP Bonus
     const totalXp = xpBonus + mothmanBonus + unreliableXp;
-    const outputXp = document.getElementById('outputXp').parentElement;
+    const outputXp = $('outputXp').parentElement;
     if (totalXp > 0) {
       outputXp.style.display = '';
-      document.getElementById('outputXp').textContent = totalXp.toFixed(2) + '%';
+      $('outputXp').textContent = totalXp.toFixed(2) + '%';
     } else {
       outputXp.style.display = 'none';
     }
 
     // Bed Bonus
-    const outputBed = document.getElementById('outputBed').parentElement;
+    const outputBed = $('outputBed').parentElement;
     if (bedBonus > 0) {
       outputBed.style.display = '';
-      document.getElementById('outputBed').textContent = bedBonus + '%';
+      $('outputBed').textContent = bedBonus + '%';
     } else {
       outputBed.style.display = 'none';
     }
 
     // Lunchbox Bonus
-    const outputLunch = document.getElementById('outputLunchXp').parentElement;
+    const outputLunch = $('outputLunchXp').parentElement;
     if (lunchboxBonus > 0) {
       outputLunch.style.display = '';
-      document.getElementById('outputLunchXp').textContent = lunchboxBonus + '%';
+      $('outputLunchXp').textContent = lunchboxBonus + '%';
     } else {
       outputLunch.style.display = 'none';
     }
 
     // Team Bonus
-    const teamXpOutput = document.getElementById('outputTeamXp').parentElement;
+    const teamXpOutput = $('outputTeamXp').parentElement;
     if (teamXpBonus > 0) {
       teamXpOutput.style.display = '';
-      document.getElementById('outputTeamXp').textContent = teamXpBonus + '%';
+      $('outputTeamXp').textContent = teamXpBonus + '%';
     } else {
       teamXpOutput.style.display = 'none';
     }
@@ -441,42 +443,42 @@ document.addEventListener('DOMContentLoaded', () => {
       totalMultiplier *= (1 + teamXpBonus / 100);
 
       // Update formula display
-      document.getElementById('calculationFormula').textContent = lines.join('\n');
-      document.getElementById('calculationResult').textContent = 'Total Multiplier: ' + totalMultiplier.toFixed(2) + 'x';
+      $('calculationFormula').textContent = lines.join('\n');
+      $('calculationResult').textContent = 'Total Multiplier: ' + totalMultiplier.toFixed(2) + 'x';
 
       // XP Test
-      const baseXp = parseFloat(document.getElementById('baseXp').value) || 0;
+      const baseXp = parseFloat($('baseXp').value) || 0;
       const finalXp = baseXp * totalMultiplier;
-      document.getElementById('xpTestResult').textContent = 'Total XP: ' + Math.round(finalXp);
+      $('xpTestResult').textContent = 'Total XP: ' + Math.round(finalXp);
 
       const dmgBonus = getIntDamageBonus(totalInt);
-      document.getElementById('scienceBonus').textContent = `+${dmgBonus.toFixed(2)}%`;
-      document.getElementById('pyroBonus').textContent = `+${dmgBonus.toFixed(2)}%`;
-      document.getElementById('cryoBonus').textContent = `+${dmgBonus.toFixed(2)}%`;
+      $('scienceBonus').textContent = `+${dmgBonus.toFixed(2)}%`;
+      $('pyroBonus').textContent = `+${dmgBonus.toFixed(2)}%`;
+      $('cryoBonus').textContent = `+${dmgBonus.toFixed(2)}%`;
     }
 
     updateCalculations(totalInt, totalXp, bedBonus, lunchboxBonus, teamXpBonus);
   }
 
   // Event Listeners
-  document.getElementById('hpTier').addEventListener('change', calculate);
+  $('hpTier').addEventListener('change', calculate);
   document.querySelectorAll('input[type="checkbox"]').forEach(el => el.addEventListener('change', calculate));
   document.querySelectorAll('select, input[type="radio"]').forEach(el => el.addEventListener('change', calculate));
-  document.getElementById('underArmorType').addEventListener('change', () => {
+  $('underArmorType').addEventListener('change', () => {
     updateUnderArmorBonusDisplay();
     calculate();
   });
-  document.getElementById('underArmorVariant').addEventListener('change', () => {
+  $('underArmorVariant').addEventListener('change', () => {
     updateUnderArmorBonusDisplay();
     calculate();
   });
-  document.getElementById('baseXp').addEventListener('input', calculate);
+  $('baseXp').addEventListener('input', calculate);
 
-  const ghoulCheckbox = document.getElementById('Ghoul');
-  const ordealRow = document.getElementById('unitedOrdealRow');
-  const ordealSelect = document.getElementById('unitedOrdeal');
-  const feralRow = document.getElementById('feralRow');
-  const feralCheckbox = document.getElementById('feralGhoul');
+  const ghoulCheckbox = $('Ghoul');
+  const ordealRow = $('unitedOrdealRow');
+  const ordealSelect = $('unitedOrdeal');
+  const feralRow = $('feralRow');
+  const feralCheckbox = $('feralGhoul');
   function toggleGhoulOptionsVisibility() {
     if (ghoulCheckbox.checked) {
       ordealRow.style.display = '';
@@ -498,10 +500,10 @@ document.addEventListener('DOMContentLoaded', () => {
     calculate(); // Recalculate on toggle
   });
 
-  const internalData = document.getElementById('internalData');
+  const internalData = $('internalData');
   const unyCheckboxes = Array.from(document.querySelectorAll('input[id$="Uny"]'));
-  const underArmorType = document.getElementById('underArmorType');
-  const underArmorVariant = document.getElementById('underArmorVariant');
+  const underArmorType = $('underArmorType');
+  const underArmorVariant = $('underArmorVariant');
 
   function updateInternalDataState() {
     const anyUnyChecked = unyCheckboxes.some(cb => cb.checked);
@@ -552,12 +554,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   calculate();
 
-  const darkToggle = document.getElementById('darkModeToggle');
+  const darkToggle = $('darkModeToggle');
   darkToggle.addEventListener('change', () => {
-    if (darkToggle.checked) {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-    }
+    document.body.classList.toggle('dark-mode', darkToggle.checked);
   });
 });
