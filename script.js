@@ -202,6 +202,12 @@ document.addEventListener('DOMContentLoaded', () => {
       totalCha += teammates * magnetic;
     }
 
+    // Cola Nut
+    const colaNut = getVal('colaNut');
+    let colaMultiplier = 1;
+    if (colaNut === 1) colaMultiplier = 2;
+    else if (colaNut === 2) colaMultiplier = 3;
+
     // --- Mutation Type ---
     const mutationRadio = document.querySelector('input[name="mutationType"]:checked');
     const mutationType = mutationRadio ? mutationRadio.value : 'none';
@@ -228,7 +234,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const basexpBonus = parseFloat(selectedXpFood.dataset.xp) || 0;
     const xpMutReq = selectedXpFood.dataset.mutation || 'none';
     const xpTags = selectedXpFood.dataset.tags || '';
-    const xpFoodBonus = resolveFoodBonus(basexpBonus, xpMutReq, xpTags, mutationType, sin);
+    let xpFoodBonus = resolveFoodBonus(basexpBonus, xpMutReq, xpTags, mutationType, sin);
+    if (xpTags.includes('cola')) xpFoodBonus *= colaMultiplier;
 
     // --- Chem Buff ---
     const chemSelect = document.getElementById('chem');
