@@ -449,50 +449,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     updateCalculations(totalInt, totalXp, bedBonus, lunchboxBonus, teamXpBonus);
-
-    saveState();
   }
 
-  function createQueryParams() {
-    const params = new URLSearchParams();
-    document.querySelectorAll("input, select").forEach(el => {
-      if (el.type === "radio") {
-        if (el.checked) params.set(el.name, el.value);
-      } else if (el.id) {
-        if (el.type === "checkbox") params.set(el.id, el.checked ? "1" : "0");
-        else params.set(el.id, el.value);
-      }
-    });
-    return params;
-  }
-
-  function saveState() {
-    const params = createQueryParams();
-    const query = params.toString();
-    localStorage.setItem("xpCalcState", query);
-    const url = window.location.pathname + "?" + query;
-    history.replaceState(null, "", url);
-    return window.location.origin + url;
-  }
-
-  function loadState() {
-    const query = window.location.search.substring(1) || localStorage.getItem("xpCalcState");
-    if (!query) return;
-    const params = new URLSearchParams(query);
-    params.forEach((value, key) => {
-      const el = document.getElementById(key);
-      if (el) {
-        if (el.type === "checkbox") {
-          el.checked = value === "1";
-        } else {
-          el.value = value;
-        }
-      } else {
-        const radios = document.querySelectorAll(`input[name="${key}"]`);
-        radios.forEach(r => { if (r.value === value) r.checked = true; });
-      }
-    });
-  }
   // Event Listeners
   document.getElementById('hpTier').addEventListener('change', calculate);
   document.querySelectorAll('input[type="checkbox"]').forEach(el => el.addEventListener('change', calculate));
@@ -583,30 +541,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Initialize on page load
-  loadState();
-  updateUnderArmorBonusDisplay();
   updateInternalDataState();
+
   calculate();
 
-  const darkToggle = document.getElementById("darkModeToggle");
-  darkToggle.addEventListener("change", () => {
+  const darkToggle = document.getElementById('darkModeToggle');
+  darkToggle.addEventListener('change', () => {
     if (darkToggle.checked) {
-      document.body.classList.add("dark-mode");
+      document.body.classList.add('dark-mode');
     } else {
-      document.body.classList.remove("dark-mode");
+      document.body.classList.remove('dark-mode');
     }
   });
-
-  const shareButton = document.getElementById("shareButton");
-  const shareStatus = document.getElementById("shareStatus");
-  if (shareButton) {
-    shareButton.addEventListener("click", () => {
-      const url = saveState();
-      navigator.clipboard.writeText(url).then(() => {
-        shareStatus.textContent = "Link copied!";
-      }).catch(() => {
-        shareStatus.textContent = "Copy failed";
-      });
-    });
-  }
 });
