@@ -14,11 +14,23 @@ document.addEventListener('DOMContentLoaded', () => {
         display.textContent = val;
       }
       calculate();
+      updateVideoButton();
     };
     slider.addEventListener('input', update);
     update();
   }
 
+
+  const videoButton = $('videoButton');
+
+  function updateVideoButton() {
+    const show =
+      getVal('baseInt') === 2 &&
+      getVal('legendInt') === 3 &&
+      getVal('baseCha') === 4 &&
+      getVal('legendCha') === 5;
+    videoButton.style.display = show ? 'block' : 'none';
+  }
 
   bindSlider('baseInt', 'baseIntVal');
   bindSlider('legendInt', 'legendIntVal');
@@ -553,6 +565,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateInternalDataState();
 
   calculate();
+  updateVideoButton();
 
   const darkToggle = $('darkModeToggle');
   darkToggle.addEventListener('change', () => {
