@@ -318,6 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Unreliable XP Buff ---
     let unreliableXp = 0;
     if ($('nukaInspiration').checked) unreliableXp += 5;
+    if ($('strongMeatSweats').checked) unreliableXp += 5;
 
     // Team Type Bonuses
     let teamXpBonus = 0;
