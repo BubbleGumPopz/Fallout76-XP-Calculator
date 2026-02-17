@@ -285,6 +285,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const lunchboxCount = getVal('lunchboxes');
     const lunchboxBonus = lunchboxCount * 25;
 
+    // DoubleXP Bonus (seperate output)
+    let doubleBonus = 0;
+    if ($('DoubleXP').checked) {
+      doubleBonus = 100;
+    }
+
     // --- Mechanical Derby ---
     if ($('MechDerby').checked) {
       totalInt += 2;
@@ -413,6 +419,15 @@ document.addEventListener('DOMContentLoaded', () => {
       outputLunch.style.display = 'none';
     }
 
+    // DoubleXP Bonus
+    const outputDoubleXp = $('outputDoubleXp').parentElement;
+    if (doubleBonus > 0) {
+      outputDoubleXp.style.display = '';
+      $('outputDoubleXp').textContent = doubleBonus + '%';
+    } else {
+      outputDoubleXp.style.display = 'none';
+    }
+
     // Team Bonus
     const teamXpOutput = $('outputTeamXp').parentElement;
     if (teamXpBonus > 0) {
@@ -422,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
       teamXpOutput.style.display = 'none';
     }
 
-    function updateCalculations(totalInt, totalXp, bedBonus, lunchboxBonus, teamXpBonus) {
+    function updateCalculations(totalInt, totalXp, bedBonus, lunchboxBonus, doubleBonus, teamXpBonus) {
       const lines = [];
 
       // Header
@@ -443,7 +458,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (lunchboxBonus > 0) {
         lines.push(`×${(1 + lunchboxBonus / 100)} (Lunchbox)`);
       }
-
+      if (doubleBonus > 0) {
+        lines.push(`×${(1 + doubleBonus / 100)} (Double XP)`);
+      }
       if (teamXpBonus > 0) {
         lines.push(`×${(1 + teamXpBonus / 100)} (Team XP)`);
       }
@@ -453,6 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
       totalMultiplier *= (1 + totalXp / 100);
       totalMultiplier *= (1 + bedBonus / 100);
       totalMultiplier *= (1 + lunchboxBonus / 100);
+      totalMultiplier *= (1 + doubleBonus / 100);
       totalMultiplier *= (1 + teamXpBonus / 100);
 
       // Update formula display
@@ -470,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
       $('cryoBonus').textContent = `+${dmgBonus.toFixed(2)}%`;
     }
 
-    updateCalculations(totalInt, totalXp, bedBonus, lunchboxBonus, teamXpBonus);
+    updateCalculations(totalInt, totalXp, bedBonus, lunchboxBonus, doubleBonus, teamXpBonus);
   }
 
   // Event Listeners
