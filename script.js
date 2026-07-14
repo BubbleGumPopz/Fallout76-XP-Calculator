@@ -92,9 +92,6 @@ function getUnderArmorBonuses() {
   };
 }
 
-The `underArmorVariant` value and all lining checks have been removed.
-
-
   function updateUnderArmorBonusDisplay() {
     const bonus = getUnderArmorBonuses();
     const display = $('underArmorBonus');
