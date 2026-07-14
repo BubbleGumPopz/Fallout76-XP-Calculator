@@ -474,10 +474,6 @@ function getUnderArmorBonuses() {
     updateUnderArmorBonusDisplay();
     calculate();
   });
-  $('underArmorVariant').addEventListener('change', () => {
-    updateUnderArmorBonusDisplay();
-    calculate();
-  });
   $('baseXp').addEventListener('input', calculate);
 
   const ghoulCheckbox = $('Ghoul');
@@ -509,13 +505,11 @@ function getUnderArmorBonuses() {
   const internalData = $('internalData');
   const unyCheckboxes = Array.from(document.querySelectorAll('input[id$="Uny"]'));
   const underArmorType = $('underArmorType');
-  const underArmorVariant = $('underArmorVariant');
 
   function updateInternalDataState() {
     const anyUnyChecked = unyCheckboxes.some(cb => cb.checked);
     const underarmorSelected =
-      (underArmorType && underArmorType.value !== 'none')
-      || (underArmorVariant && underArmorVariant.value !== 'none');
+      (underArmorType && underArmorType.value !== 'none');
 
     if (anyUnyChecked || underarmorSelected) {
       internalData.checked = false;
@@ -528,7 +522,6 @@ function getUnderArmorBonuses() {
     const disableOthers = internalData.checked;
     unyCheckboxes.forEach(cb => cb.disabled = disableOthers);
     if (underArmorType) underArmorType.disabled = disableOthers;
-    if (underArmorVariant) underArmorVariant.disabled = disableOthers;
   }
 
   // Bind listeners
@@ -548,13 +541,6 @@ function getUnderArmorBonuses() {
       calculate();
     });
   }
-  if (underArmorVariant) {
-    underArmorVariant.addEventListener('change', () => {
-      updateInternalDataState();
-      calculate();
-    });
-  }
-
   // Initialize on page load
   updateInternalDataState();
 
