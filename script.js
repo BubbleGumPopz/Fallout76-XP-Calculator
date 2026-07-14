@@ -72,28 +72,23 @@ document.addEventListener('DOMContentLoaded', () => {
 function getUnderArmorBonuses() {
   const type = $('underArmorType').value;
 
-  const bonuses = {
-    bos: {
-      int: 3,
-      cha: 0
-    },
-    casual: {
-      int: 3,
-      cha: 5
-    },
-    civilEngineer: {
-      int: 0,
-      cha: 4
-    },
-    vault: {
-      int: 5,
-      cha: 0
-    }
-  };
+  let intBonus = 0;
+  let chaBonus = 0;
 
-  return bonuses[type] ?? {
-    int: 0,
-    cha: 0
+  if (type === 'bos') {
+    intBonus = 3;
+  } else if (type === 'casual') {
+    intBonus = 3;
+    chaBonus = 5;
+  } else if (type === 'civilEngineer') {
+    chaBonus = 4;
+  } else if (type === 'vault') {
+    intBonus = 5;
+  }
+
+  return {
+    int: intBonus,
+    cha: chaBonus
   };
 }
 
