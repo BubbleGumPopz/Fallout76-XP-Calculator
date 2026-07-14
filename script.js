@@ -69,35 +69,36 @@ document.addEventListener('DOMContentLoaded', () => {
     return base;
   }
 
-  function getUnderArmorBonuses() {
-    const type = $('underArmorType').value;
-    const variant = $('underArmorVariant').value;
+function getUnderArmorBonuses() {
+  const type = $('underArmorType').value;
 
-    let intBonus = 0;
-    let chaBonus = 0;
-
-    if (type === 'casual') {
-      if (variant === 'treated' || variant === 'resistant') {
-        intBonus = 1;
-        chaBonus = 1;
-      } else if (variant === 'protective') {
-        intBonus = 1;
-        chaBonus = 2;
-      } else if (variant === 'shielded') {
-        intBonus = 3;
-        chaBonus = 3;
-      }
-    } else if (type === 'vault') {
-      if (variant === 'resistant' || variant === 'protective' || variant === 'shielded') {
-        intBonus = 2;
-      }
+  const bonuses = {
+    bos: {
+      int: 3,
+      cha: 0
+    },
+    casual: {
+      int: 3,
+      cha: 5
+    },
+    civilEngineer: {
+      int: 0,
+      cha: 4
+    },
+    vault: {
+      int: 5,
+      cha: 0
     }
+  };
 
-    return {
-      int: intBonus,
-      cha: chaBonus
-    };
-  }
+  return bonuses[type] ?? {
+    int: 0,
+    cha: 0
+  };
+}
+
+The `underArmorVariant` value and all lining checks have been removed.
+
 
   function updateUnderArmorBonusDisplay() {
     const bonus = getUnderArmorBonuses();
